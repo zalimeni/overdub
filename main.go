@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/zalimeni/overdub/history"
 	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -14,10 +15,13 @@ type model struct {
 }
 
 func loadCommandHistory() []string {
-	//TODO load command history based on $SHELL
-	//TODO parse command history into subcommands, flags, args, and other tokens
-	//  - Maybe use https://github.com/alecthomas/kong or some such
-	return nil
+	err, commands := history.ReadLocal()
+	if err != nil {
+		fmt.Println("Error reading shell history: ", err)
+		// Return empty commands list (allow Custom command entry)
+		return nil
+	}
+	return commands
 }
 
 func initialModel() model {
@@ -28,8 +32,8 @@ func initialModel() model {
 		choices: initialChoices,
 		// Default to first choice
 		cursor: 0,
-		// Default to "Custom"
-		selected: len(initialChoices) - 1,
+		// Default to first choice
+		selected: 0,
 	}
 }
 
