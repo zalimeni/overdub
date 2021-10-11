@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/zalimeni/overdub/history"
 	"os"
-
-	tea "github.com/charmbracelet/bubbletea"
 )
 
 type model struct {
@@ -15,7 +14,8 @@ type model struct {
 }
 
 func loadCommandHistory() []string {
-	err, commands := history.ReadLocal()
+	//TODO support options for reading more/less history
+	commands, err := history.ReadLocalHistory(5)
 	if err != nil {
 		fmt.Println("Error reading shell history: ", err)
 		// Return empty commands list (allow Custom command entry)
@@ -25,7 +25,7 @@ func loadCommandHistory() []string {
 }
 
 func initialModel() model {
-	// Recent commands, and "Custom" for direct input
+	// Recent commands, and "*Custom*" for direct input
 	initialChoices := append(loadCommandHistory(), "*Custom*")
 
 	return model{
@@ -81,7 +81,7 @@ func (m model) View() string {
 		// Is this choice selected?
 		checked := " " // not selected
 		if m.selected == i {
-			checked = "✓" // selected
+			checked = "x" // selected
 		}
 
 		// Render the row
