@@ -5,6 +5,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/zalimeni/overdub/history"
 	"os"
+	"strconv"
 )
 
 type model struct {
@@ -60,6 +61,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Enter + Space toggle the choice list selection
 		case "enter", " ":
 			m.selected = m.cursor
+		default:
+			// Check for numeric key -> select corresponding option
+			// Only support numeric options 1-9 (single key)
+			firstKey := msg.Runes[0]
+			if firstKey >= '1' && firstKey <= '9' && len(msg.Runes) == 1 {
+				choice, _ := strconv.Atoi(string(firstKey))
+				// If the pressed numeric key is <= the number of choices available,
+				// select and move the cursor to that number using the proper index.
+				if choice <= len(m.choices) {
+					m.cursor = choice - 1
+					m.selected = choice - 1
+				}
+			}
 		}
 	}
 
@@ -71,6 +85,12 @@ func (m model) View() string {
 
 	// Iterate over choices
 	for i, choice := range m.choices {
+		// Support selection by number on keypad
+		number := i+1
+		numberShortcut := strconv.Itoa(number) + ")"
+		if number > 9 {
+			numberShortcut = "  "
+		}
 
 		// Is the cursor pointing at this choice?
 		cursor := " " // no cursor
@@ -85,7 +105,7 @@ func (m model) View() string {
 		}
 
 		// Render the row
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
+		s += fmt.Sprintf("%s [%s] %s %s\n", cursor, checked, numberShortcut, choice)
 	}
 
 	s += "\nPress `q` to quit.\n"
