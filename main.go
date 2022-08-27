@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	tea "github.com/charmbracelet/bubbletea"
-	"github.com/zalimeni/overdub/history"
 	"os"
 	"strconv"
+
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/zalimeni/overdub/history"
 )
 
 type model struct {
@@ -16,6 +17,7 @@ type model struct {
 
 func loadCommandHistory() []string {
 	//TODO support options for reading more/less history
+	//TODO support -l option for using last command w/o choosing from history
 	commands, err := history.ReadLocalHistory(5)
 	if err != nil {
 		fmt.Println("Error reading shell history: ", err)
@@ -86,7 +88,7 @@ func (m model) View() string {
 	// Iterate over choices
 	for i, choice := range m.choices {
 		// Support selection by number on keypad
-		number := i+1
+		number := i + 1
 		numberShortcut := strconv.Itoa(number) + ")"
 		if number > 9 {
 			numberShortcut = "  "
