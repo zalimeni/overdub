@@ -86,6 +86,8 @@ func (m model) View() string {
 	s := "Select command to overdub:\n\n"
 
 	// Iterate over choices
+	//TODO: Switch to https://github.com/charmbracelet/bubbles/tree/master/list over history
+	//with key option to type one in
 	for i, choice := range m.choices {
 		// Support selection by number on keypad
 		number := i + 1
