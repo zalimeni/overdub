@@ -1,6 +1,6 @@
 module github.com/zalimeni/overdub
 
-go 1.17
+go 1.19
 
 require github.com/charmbracelet/bubbletea v0.17.0
 
