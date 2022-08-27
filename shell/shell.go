@@ -43,7 +43,7 @@ func readLines(scanner *bufio.Scanner) []string {
 func getLastNLines(lines []string, numLines int, predicate func(string) bool) []string {
 	lineCount := len(lines)
 	var validLines []string
-	for i := lineCount-1; i >= 0; i-- {
+	for i := lineCount - 1; i >= 0; i-- {
 		if predicate(lines[i]) {
 			validLines = append(validLines, lines[i])
 			if len(validLines) == numLines {
@@ -98,8 +98,8 @@ func GetDefaultShell() (HistorySource, error) {
 	fmt.Printf("Detected `%v` shell\n", shellName)
 
 	switch shellName {
-	case "bash":
-		return &Bash{}, nil
+	case "zsh":
+		return &Zsh{}, nil
 	}
 	return nil, errors.New("$SHELL contained an unsupported shell: " + shellName)
 }
