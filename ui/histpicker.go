@@ -62,6 +62,7 @@ func (m HistoryPickerModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Enter + Space toggle the choice list selection
 		case "enter", " ":
 			m.selected = m.cursor
+			return NewCommandEditorModel(m.choices[m.selected]), nil
 		default:
 			// Check for numeric key -> select corresponding option
 			// Only support numeric options 1-9 (single key)
