@@ -15,9 +15,11 @@ Create new commands from your shell history or terminal.
 
 ### Nice-to-haves
 - Support parameterization 
+  - Maybe use command parser lib to guess options for interactive edit?
 - Filter out unlikely commands (e.g. package managers) from suggestions list
 - Limit history pull to sane number for speed (500?)
 - Dedupe commands to choose from
+- fzf style search for selecting
 - Comment annotations to edit
   - Serialized original command?
   - Parse back persisted fn for edit 
