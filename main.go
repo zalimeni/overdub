@@ -10,7 +10,7 @@ import (
 
 func main() {
 	p := tea.NewProgram(ui.NewHistoryPickerModel())
-	if err := p.Start(); err != nil {
+	if _, err := p.Run(); err != nil {
 		fmt.Printf("Oops! Something went wrong: %v", err)
 		os.Exit(1)
 	}
